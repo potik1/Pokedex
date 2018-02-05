@@ -11,9 +11,13 @@ module.exports = {
     sourceType: 'module'
   },
   'plugins': ['import'],
-  'extends': 'airbnb',
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'airbnb',
+  ],
   'rules':{
     'no-console': 0,
-    'func-names': ['error', 'never]
+    'func-names': ['error', 'never']
   }
 };
