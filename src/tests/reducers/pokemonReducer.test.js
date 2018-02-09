@@ -10,24 +10,24 @@ describe('get all pokemons reducer', () => {
   });
 
   test('should handle LIST_POKEMONS', () => {
-    const responseData = {
+    const pokemons = [{ id: 1 }, { id: 2 }];
+
+    const axiosResponse = {
       data: {
-        results: [
-          {'1': 1}, {'2': 2},
-        ],
+        results: pokemons,
       },
     };
 
-    console.log(responseData);
-
-    const actionObject = {
+    const action = {
       type: LIST_POKEMONS,
-      pokemons: responseData,
+      payload: axiosResponse,
     };
-    console.log(actionObject);
 
-    const newState = pokemonsReducer(undefined, actionObject);
+    const expectedState = {
+      pokemons,
+    };
 
-    expect(newState).toEqual(responseData);
+    const newState = pokemonsReducer(undefined, action);
+    expect(newState).toEqual(expectedState);
   });
 });

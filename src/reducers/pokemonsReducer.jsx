@@ -4,7 +4,7 @@ import initialState from '../store/initialState';
 export default function (state = initialState, action = {}) {
   switch (action.type) {
     case LIST_POKEMONS:
-      return { ...state, pokemons: action.payload.data };
+      return { ...state, pokemons: action.payload.data.results };
     default:
       return state;
   }
