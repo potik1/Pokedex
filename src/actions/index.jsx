@@ -14,6 +14,3 @@ export function getPokemonList(pageNumber = 1, limit = POKEMON_LIMIT) {
   };
 }
 
-export function dummyTurd() {
-  return null;
-}

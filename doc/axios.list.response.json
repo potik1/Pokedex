@@ -226,6 +226,7 @@ _onNativeResponse: [Function],
 _currentRequest: [Circular],
 _currentUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=10&offset=0' },
 [Symbol(outHeadersKey)]: { accept: [Array], 'user-agent': [Array], host: [Array] } },
+  ---------------------------------------------------------------------------------------------
 data:
 { count: 949,
 previous: null,
