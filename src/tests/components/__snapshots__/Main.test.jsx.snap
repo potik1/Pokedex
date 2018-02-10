@@ -2,6 +2,18 @@
 
 exports[`components <Main /> renders correctly 1`] = `
 <div>
-  Dupa
+  <nav
+    className="navbar navbar-light bg-faded"
+  >
+    <a
+      className="navbar-brand"
+      href="../"
+    >
+      POKEDEX
+    </a>
+  </nav>
+  <div>
+    Tu będą pokemony
+  </div>
 </div>
 `;
