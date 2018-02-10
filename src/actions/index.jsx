@@ -6,7 +6,8 @@ const POKEMON_LIMIT = 20;
 
 export function getPokemonList(pageNumber = 1, limit = POKEMON_LIMIT) {
   const offset = limit * (pageNumber - 1);
-  const request = axios.get(`${ROOT_URL}pokemon/?limit=${limit}&offset=${offset}`);
+  const url = `${ROOT_URL}pokemon/?limit=${limit}&offset=${offset}`;
+  const request = axios.get(url);
 
   return {
     action: LIST_POKEMONS,
@@ -14,8 +15,8 @@ export function getPokemonList(pageNumber = 1, limit = POKEMON_LIMIT) {
   };
 }
 
-export function getPokemon(id) {
-  const request = axios.get(`${ROOT_URL}pokemon/${id}`);
+export function getPokemon(url) {
+  const request = axios.get(url);
 
   return {
     action: GET_POKEMON,

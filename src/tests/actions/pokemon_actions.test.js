@@ -50,7 +50,7 @@ describe('tests of action functions', () => {
   //test of getPokemon function
   describe('getPokemon function test', () => {
     test('Valid response', () => {
-      const response = getPokemon(1);
+      const response = getPokemon("https://pokeapi.co/api/v2/pokemon/1/");
 
       expect.assertions(6);
       expect(response.action).toEqual(GET_POKEMON);
@@ -64,13 +64,14 @@ describe('tests of action functions', () => {
       });
     });
 
-    test('id out of range', () => {
-      const response = getPokemon(0);
+    test('url does not exist', () => {
+      const response = getPokemon("https://pokeapi.co/api/v2/pokemon/0/");
 
-      expect.assertions(2);
+      expect.assertions(3);
       expect(response.action).toEqual(GET_POKEMON);
 
       return response.payload.catch((e) => {
+        expect(e).toMatchObject({});
         expect(e.message).toContain('status code 404');
       });
     });
