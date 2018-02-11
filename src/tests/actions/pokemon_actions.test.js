@@ -9,7 +9,7 @@ describe('tests of action functions', () => {
       const limit = 10;
       const response = getPokemonList(1, limit);
 
-      expect(response.action).toEqual(LIST_POKEMONS);
+      expect(response.type).toEqual(LIST_POKEMONS);
 
       return response.payload.then((res) => {
         expect(res.status).toEqual(200);
@@ -27,7 +27,7 @@ describe('tests of action functions', () => {
       const response = getPokemonList(999, 999);
 
       expect.assertions(3);
-      expect(response.action).toEqual(LIST_POKEMONS);
+      expect(response.type).toEqual(LIST_POKEMONS);
 
       return response.payload.then((res) => {
         expect(res.status).toEqual(200);
@@ -39,7 +39,7 @@ describe('tests of action functions', () => {
       const response = getPokemonList(1, 949);
 
       expect.assertions(3);
-      expect(response.action).toEqual(LIST_POKEMONS);
+      expect(response.type).toEqual(LIST_POKEMONS);
 
       return response.payload.then((res) => {
         expect(res.status).toEqual(200);
@@ -53,7 +53,7 @@ describe('tests of action functions', () => {
       const response = getPokemon("https://pokeapi.co/api/v2/pokemon/1/");
 
       expect.assertions(6);
-      expect(response.action).toEqual(GET_POKEMON);
+      expect(response.type).toEqual(GET_POKEMON);
 
       return response.payload.then((res) => {
         expect(res.status).toEqual(200);
@@ -68,7 +68,7 @@ describe('tests of action functions', () => {
       const response = getPokemon("https://pokeapi.co/api/v2/pokemon/0/");
 
       expect.assertions(3);
-      expect(response.action).toEqual(GET_POKEMON);
+      expect(response.type).toEqual(GET_POKEMON);
 
       return response.payload.catch((e) => {
         expect(e).toMatchObject({});

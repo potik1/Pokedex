@@ -10,7 +10,7 @@ export function getPokemonList(pageNumber = 1, limit = POKEMON_LIMIT) {
   const request = axios.get(url);
 
   return {
-    action: LIST_POKEMONS,
+    type: LIST_POKEMONS,
     payload: request,
   };
 }
@@ -19,7 +19,7 @@ export function getPokemon(url) {
   const request = axios.get(url);
 
   return {
-    action: GET_POKEMON,
+    type: GET_POKEMON,
     payload: request,
   };
 }

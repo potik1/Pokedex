@@ -7,13 +7,13 @@ import promise from 'redux-promise';
 import Main from '../src/components/Main';
 import reducers from '../src/reducers/index';
 
-const store = createStore(
-  reducers,
-  compose(
-    applyMiddleware(promise),
-    window.devToolsExtension ? window.devToolsExtension() : f => f,
-  ),
-);
+const store=  createStore(
+    reducers,
+    compose(
+      applyMiddleware(promise),
+      window.devToolsExtension ? window.devToolsExtension() : f => f,
+    ),
+  );
 
 ReactDOM.render(
   <Provider store={store}>
