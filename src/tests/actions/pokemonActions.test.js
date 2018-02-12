@@ -1,5 +1,5 @@
-import { getPokemonList, getPokemon } from '../../actions/index';
-import { GET_POKEMON, LIST_POKEMONS } from '../../actions/type';
+import { getPokemonList, getPokemon, searchPokemon } from '../../actions/index';
+import { GET_POKEMON, LIST_POKEMONS, SEARCH_POKEMON } from '../../actions/type';
 
 describe('tests of action functions', () => {
   describe('getPokemonsList function test', () => {
@@ -47,10 +47,10 @@ describe('tests of action functions', () => {
       });
     });
   });
-  //test of getPokemon function
+  // test of getPokemon function
   describe('getPokemon function test', () => {
     test('Valid response', () => {
-      const response = getPokemon("https://pokeapi.co/api/v2/pokemon/1/");
+      const response = getPokemon('https://pokeapi.co/api/v2/pokemon/1/');
 
       expect.assertions(6);
       expect(response.type).toEqual(GET_POKEMON);
@@ -65,7 +65,7 @@ describe('tests of action functions', () => {
     });
 
     test('url does not exist', () => {
-      const response = getPokemon("https://pokeapi.co/api/v2/pokemon/0/");
+      const response = getPokemon('https://pokeapi.co/api/v2/pokemon/0/');
 
       expect.assertions(3);
       expect(response.type).toEqual(GET_POKEMON);
@@ -73,6 +73,33 @@ describe('tests of action functions', () => {
       return response.payload.catch((e) => {
         expect(e).toMatchObject({});
         expect(e.message).toContain('status code 404');
+      });
+    });
+  });
+  describe('searchPokemon function test', () => {
+    test('correct name', () => {
+      const response = searchPokemon('bulbasaur');
+
+      expect.assertions(6);
+      expect(response.type).toEqual(SEARCH_POKEMON);
+
+      return response.payload.then((res) => {
+        expect(res.status).toEqual(200);
+        expect(res.data).toMatchObject({});
+        expect(res.data).toHaveProperty('base_experience');
+        expect(res.data).toHaveProperty('id');
+        expect(res.data).toHaveProperty('abilities');
+      });
+    });
+    test('invalid name', () => {
+      const response = searchPokemon('kikomana');
+
+      expect.assertions(3);
+      expect(response.type).toEqual(SEARCH_POKEMON);
+
+      return response.payload.catch((e) => {
+        expect(e).toMatchObject({});
+        expect(e.message).toContain('Request failed with status code 404');
       });
     });
   });

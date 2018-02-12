@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { LIST_POKEMONS, GET_POKEMON } from './type';
+import { LIST_POKEMONS, GET_POKEMON, SEARCH_POKEMON } from './type';
 
 const ROOT_URL = 'https://pokeapi.co/api/v2/';
-const POKEMON_LIMIT = 20;
+const POKEMON_LIMIT = 10;
 
 export function getPokemonList(pageNumber = 1, limit = POKEMON_LIMIT) {
   const offset = limit * (pageNumber - 1);
@@ -20,6 +20,17 @@ export function getPokemon(url) {
 
   return {
     type: GET_POKEMON,
+    payload: request,
+  };
+}
+
+
+export function searchPokemon(name) {
+  const url = `${ROOT_URL}pokemon/${name}/`;
+  const request = axios.get(url);
+
+  return {
+    type: SEARCH_POKEMON,
     payload: request,
   };
 }
