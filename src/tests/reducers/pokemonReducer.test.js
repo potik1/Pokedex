@@ -27,6 +27,7 @@ describe('handle all reducers', () => {
       pokemon: null,
       nextPage: undefined,
       previousPage: undefined,
+      pokemonNotFound: false,
     };
 
     const newStateGetAll = pokemonsReducer(undefined, action);
@@ -52,6 +53,7 @@ describe('handle all reducers', () => {
       pokemon: null,
       nextPage,
       previousPage: undefined,
+      pokemonNotFound: false,
     };
 
     const newStateGetAll = pokemonsReducer(undefined, action);
@@ -76,6 +78,7 @@ describe('handle all reducers', () => {
       pokemon: null,
       nextPage: undefined,
       previousPage,
+      pokemonNotFound: false,
     };
 
     const newStateGetAll = pokemonsReducer(undefined, action);
@@ -101,11 +104,13 @@ describe('handle all reducers', () => {
       pokemon: { name },
       nextPage: undefined,
       previousPage: undefined,
+      pokemonNotFound: false,
     };
 
     const newStateGetPokemon = pokemonsReducer(undefined, actionGetPokemon);
     expect(newStateGetPokemon).toEqual(expectedGetPokemonState);
   });
+
   test('should handle SEARCH_POKEMON', () => {
     const name = 'squirtle';
     const axiosSearchPokemonResponse = {
@@ -124,6 +129,32 @@ describe('handle all reducers', () => {
       pokemon: { name },
       nextPage: undefined,
       previousPage: undefined,
+      pokemonNotFound: false,
+    };
+
+    const newStateSearchPokemon = pokemonsReducer(undefined, actionSearchPokemon);
+    expect(newStateSearchPokemon).toEqual(expectedSearchPokemonState);
+  });
+
+  test('pokemon not found', () => {
+    const errorAction = {
+      response: {
+        status: 404,
+      },
+    };
+
+    const actionSearchPokemon = {
+      type: SEARCH_POKEMON,
+      payload: errorAction,
+      error: true,
+    };
+
+    const expectedSearchPokemonState = {
+      pokemons: [],
+      pokemon: null,
+      nextPage: undefined,
+      previousPage: undefined,
+      pokemonNotFound: true,
     };
 
     const newStateSearchPokemon = pokemonsReducer(undefined, actionSearchPokemon);

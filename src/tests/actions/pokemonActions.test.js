@@ -47,7 +47,7 @@ describe('tests of action functions', () => {
       });
     });
   });
-  // test of getPokemon function
+
   describe('getPokemon function test', () => {
     test('Valid response', () => {
       const response = getPokemon('https://pokeapi.co/api/v2/pokemon/1/');
@@ -76,6 +76,7 @@ describe('tests of action functions', () => {
       });
     });
   });
+
   describe('searchPokemon function test', () => {
     test('correct name', () => {
       const response = searchPokemon('bulbasaur');
@@ -91,6 +92,7 @@ describe('tests of action functions', () => {
         expect(res.data).toHaveProperty('abilities');
       });
     });
+
     test('invalid name', () => {
       const response = searchPokemon('kikomana');
 

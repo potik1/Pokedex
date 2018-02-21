@@ -8,75 +8,101 @@ import PokemonDetail from './PokemonDetail';
 class PokemonList extends Component {
   constructor(props) {
     super(props);
-    this.state = {page: 1};
-  }
+    this.state = {
+      page: 1,
+    };
 
-  componentWillMount() {
     this.props.getPokemonList(this.state.page).then((res) => {
       const pokemonName = res.payload.data.results[0].name;
       this.props.searchPokemon(pokemonName);
     });
+
+    this.activeEl = null;
   }
 
+  getSelectPokemonList = pokemonUrl => (e) => {
+    this.props.getPokemon(pokemonUrl);
+    if ((this.activeEl) && (e.target !== this.activeEl)) {
+      this.activeEl.classList.remove('font-weight-bold');
+    }
+    e.target.classList.add('font-weight-bold');
+    this.activeEl = e.target;
+  };
+
   nextPage() {
-    console.log(this.props);
     const page = this.state.page + 1;
-    this.setState({page});
+    this.setState({ page });
     this.props.getPokemonList(page);
   }
 
   prevPage() {
     const page = this.state.page - 1;
-    this.setState({page});
+    this.setState({ page });
     this.props.getPokemonList(page);
+  }
+
+  notFound() {
+    if (this.props.pokemonNotFound) {
+      return (
+        <div>
+          <h4 className="text-danger mx-auto">POKEMON NOT FOUND</h4>
+        </div>
+      );
+    }
+    return null;
   }
 
   renderList() {
     return (
       this.props.pokemons.map(pokemon =>
-        <li className="list-group-item" key={pokemon.name}>
-          {pokemon.name}</li>)
+        (<li
+          className="list-group-item text-capitalize"
+          key={pokemon.name}
+          onClick={this.getSelectPokemonList(pokemon.url)}
+        >
+          {pokemon.name}
+        </li>))
     );
   }
 
   render() {
-
-    if (!this.props.pokemons) {
-      return (<div>Loading...</div>);
-    }
     return (
-      <div>
+      <div className="container">
         <div className="row">
           <div className="col-12">
-            <h3 className="text-center my-4"> POKEMON LISTS</h3>
-          </div>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 mx-4">
-            <div>
-              <ul className="list-group">
-                {this.renderList()}
-              </ul>
+            <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
+              <h3 className="mt-4 mx-auto"> LIST OF POKEMONS</h3>
             </div>
           </div>
-          <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <PokemonDetail/>
-          </div>
-        </div>
-        <div className="row my-6">
-          <div className="col-12">
+          <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
+            <div>{this.notFound()}</div>
             <div className="text-center">
-              <button className={this.props.previousPage
-                ? 'btn btn-outline-secondary'
-                : 'btn btn-outline-secondary disabled'}
-                      onClick={() => this.prevPage()}>
+              <button
+                className={this.props.previousPage
+                  ? 'btn btn-outline-info'
+                  : 'btn btn-outline-info disabled'}
+                onClick={() => this.prevPage()}
+              >
                 Previous
               </button>
-              <button className={this.props.nextPage
-                ? 'btn btn-outline-secondary'
-                : 'btn btn-outline-secondary disabled'}
-                      onClick={() => this.nextPage()}>
+              <button
+                className={this.props.nextPage
+                  ? 'btn btn-outline-info'
+                  : 'btn btn-outline-info disabled'}
+                onClick={() => this.nextPage()}
+              >
                 Next
               </button>
             </div>
+            <div >
+              <ul className="list-group my-4">
+                {this.renderList()}
+              </ul>
+            </div>
+            <hr />
+          </div>
+          <div className="col-lg-8 col-md-8 col-sm-7 col-xs-6 mx-auto" >
+            <PokemonDetail />
           </div>
         </div>
       </div>
@@ -89,6 +115,7 @@ function mapStateToProps(state) {
     pokemons: state.pokemons.pokemons,
     previousPage: state.pokemons.previousPage,
     nextPage: state.pokemons.nextPage,
+    pokemonNotFound: state.pokemons.pokemonNotFound,
   };
 }
 
@@ -97,11 +124,12 @@ PokemonList.propTypes = {
   getPokemon: PropTypes.func.isRequired,
   searchPokemon: PropTypes.func.isRequired,
   pokemons: PropTypes.arrayOf(PropTypes.object),
-  pokemon: PropTypes.object,
   previousPage: PropTypes.string,
   nextPage: PropTypes.string,
 };
 
-export default connect(mapStateToProps,
-  {getPokemonList, getPokemon, searchPokemon})(PokemonList);
+export default connect(
+  mapStateToProps,
+  { getPokemon, getPokemonList, searchPokemon },
+)(PokemonList);
 
