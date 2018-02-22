@@ -41,17 +41,6 @@ class PokemonList extends Component {
     this.props.getPokemonList(page);
   }
 
-  notFound() {
-    if (this.props.pokemonNotFound) {
-      return (
-        <div>
-          <h4 className="text-danger mx-auto">POKEMON NOT FOUND</h4>
-        </div>
-      );
-    }
-    return null;
-  }
-
   renderList() {
     return (
       this.props.pokemons.map(pokemon =>
@@ -69,13 +58,9 @@ class PokemonList extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12">
-            <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
-              <h3 className="mt-4 mx-auto"> LIST OF POKEMONS</h3>
-            </div>
-          </div>
+          <h3 className="mt-4 mx-auto"> LIST OF POKEMONS</h3>
+          <div className="col-12 " />
           <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
-            <div>{this.notFound()}</div>
             <div className="text-center">
               <button
                 className={this.props.previousPage
@@ -99,7 +84,7 @@ class PokemonList extends Component {
                 {this.renderList()}
               </ul>
             </div>
-            <hr />
+            <hr className="d-block d-sm-none" />
           </div>
           <div className="col-lg-8 col-md-8 col-sm-7 col-xs-6 mx-auto" >
             <PokemonDetail />
@@ -123,9 +108,9 @@ PokemonList.propTypes = {
   getPokemonList: PropTypes.func.isRequired,
   getPokemon: PropTypes.func.isRequired,
   searchPokemon: PropTypes.func.isRequired,
-  pokemons: PropTypes.arrayOf(PropTypes.object),
-  previousPage: PropTypes.string,
-  nextPage: PropTypes.string,
+  pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  previousPage: PropTypes.string.isRequired,
+  nextPage: PropTypes.string.isRequired,
 };
 
 export default connect(

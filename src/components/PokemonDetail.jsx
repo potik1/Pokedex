@@ -81,17 +81,21 @@ class PokemonDetail extends Component {
         </div>
       </div>
     );
-  }
+  };
 
   renderPokemonNotFound = () => (
-    <h1>Pokemon Not Found</h1>
-  )
+    <div className="row">
+      <h2 className="text-danger mx-auto">Pokemon Not Found!</h2>
+    </div>
+  );
 
   renderLoading = () => (
-    <div className="mx-auto">
-      <Loading />
+    <div className="row">
+      <div className="mx-auto">
+        <Loading />
+      </div>
     </div>
-  )
+  );
 
   render() {
     return (
@@ -126,56 +130,3 @@ PokemonDetail.propTypes = {
 };
 export default connect(mapStateToProps, null)(PokemonDetail);
 
-/*
-return (
-      <div ref={(el) => { this.element = el; }}>
-        <div className="row my-2">
-          <div className="col-12 text-uppercase">
-            <h4 className="text-center font-weight-bold">{name}</h4>
-          </div>
-        </div>
-        <div className="row my-2">
-          <div className="col-12 text-center">
-            <img src={imgFrontShiny} alt="imgFrontShiny" />
-            <img src={imgBackShiny} alt="imgBackShiny" />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6  mx-auto">
-            <h5 className="font-italic font-weight-bold">
-              Characteristics:
-            </h5>
-            <ul>
-              <li>Index: {index}</li>
-              <li>Height: {height}</li>
-              <li>Weight: {weight}</li>
-              <li>Basic experience: {baseExp}</li>
-            </ul>
-          </div>
-          <div className="col-6  mx-auto">
-            <h5 className="font-italic font-weight-bold">Types:</h5>
-            <ul>
-              {typeStat}
-            </ul>
-          </div>
-        </div>
-        <div className="row my-4 mx-2">
-          <h5 className="font-italic font-weight-bold">
-            Statistics:
-          </h5>
-          <table className="table table-sm table-bordered">
-            <thead>
-              <tr className="table-secondary">
-                <th>Ability</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableStat}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
- */
