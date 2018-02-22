@@ -14,3 +14,26 @@
   max-width: 1500px;
   border: 1px solid #17a2b8;
 }
+.arrow {
+  width: 30px;
+  height: 30px;
+  background-color: #17a2b8;
+  animation: blink 3s ease-in infinite;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  border-radius: 5px;
+  border: none;
+}
+@keyframes blink {
+  from, to { opacity: 1 }
+  50% { opacity: 0 }
+}
+.arrow-up {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -10px;
+  margin-left: -7px;
+}

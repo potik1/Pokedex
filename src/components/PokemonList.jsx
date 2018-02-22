@@ -108,8 +108,11 @@ PokemonList.propTypes = {
   getPokemonList: PropTypes.func.isRequired,
   getPokemon: PropTypes.func.isRequired,
   searchPokemon: PropTypes.func.isRequired,
+  /* eslint-disable */
   pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /* eslint-disable */
   previousPage: PropTypes.string.isRequired,
+  /* eslint-disable */
   nextPage: PropTypes.string.isRequired,
 };
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { faArrowUp } from '@fortawesome/fontawesome-free-solid/index';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Loading from './Loading';
 
 class PokemonDetail extends Component {
@@ -10,12 +12,25 @@ class PokemonDetail extends Component {
 
   scroll = () => {
     if (this.element) {
-      this.element.scrollIntoView({ behavior: 'smooth' });
+      this.element.scrollIntoView({behavior: 'smooth'});
     }
   };
 
+  scrollUpButton = () => (
+    <div className="d-block d-sm-none">
+      <button
+        className="arrow"
+        onClick={() => { this.window.scroll(0, 0); }}
+      >
+        <span className="arrow-up">
+          <FontAwesomeIcon icon={faArrowUp}/>
+        </span>
+      </button>
+    </div>
+  );
+
   renderPokemonDetails = (pokemon) => {
-    const { name, weight, height } = pokemon;
+    const {name, weight, height} = pokemon;
     const index = pokemon.id;
     const imgFrontShiny = pokemon.sprites.front_shiny;
     const imgBackShiny = pokemon.sprites.back_shiny;
@@ -40,8 +55,8 @@ class PokemonDetail extends Component {
         </div>
         <div className="row my-2">
           <div className="col-12 text-center">
-            <img src={imgFrontShiny} alt="imgFrontShiny" />
-            <img src={imgBackShiny} alt="imgBackShiny" />
+            <img src={imgFrontShiny} alt="imgFrontShiny"/>
+            <img src={imgBackShiny} alt="imgBackShiny"/>
           </div>
         </div>
         <div className="row">
@@ -69,13 +84,13 @@ class PokemonDetail extends Component {
           </h5>
           <table className="table table-sm table-bordered">
             <thead>
-              <tr className="table-secondary">
-                <th>Ability</th>
-                <th>Value</th>
-              </tr>
+            <tr className="table-secondary">
+              <th>Ability</th>
+              <th>Value</th>
+            </tr>
             </thead>
             <tbody>
-              {tableStat}
+            {tableStat}
             </tbody>
           </table>
         </div>
@@ -92,7 +107,7 @@ class PokemonDetail extends Component {
   renderLoading = () => (
     <div className="row">
       <div className="mx-auto">
-        <Loading />
+        <Loading/>
       </div>
     </div>
   );
@@ -102,12 +117,11 @@ class PokemonDetail extends Component {
       <div ref={(el) => { this.element = el; }}>
         {this.props.loadingPokemon && this.renderLoading()}
         {this.props.pokemonNotFound && this.renderPokemonNotFound()}
-        {
-          this.props.pokemon
-          && !this.props.loadingPokemon
-          && !this.props.pokemonNotFound
-          && this.renderPokemonDetails(this.props.pokemon)
-        }
+        {this.props.pokemon
+        && !this.props.loadingPokemon
+        && !this.props.pokemonNotFound
+        && this.renderPokemonDetails(this.props.pokemon)}
+        {this.scrollUpButton()}
       </div>
     );
   }
