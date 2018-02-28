@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { faArrowUp } from '@fortawesome/fontawesome-free-solid/index';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Loading from './Loading';
+import ShowingArrow from './Showing';
 
 class PokemonDetail extends Component {
   componentDidUpdate() {
@@ -15,19 +14,6 @@ class PokemonDetail extends Component {
       this.element.scrollIntoView({behavior: 'smooth'});
     }
   };
-
-  scrollUpButton = () => (
-    <div className="d-block d-sm-none">
-      <button
-        className="arrow"
-        onClick={() => { this.window.scroll(0, 0); }}
-      >
-        <span className="arrow-up">
-          <FontAwesomeIcon icon={faArrowUp}/>
-        </span>
-      </button>
-    </div>
-  );
 
   renderPokemonDetails = (pokemon) => {
     const {name, weight, height} = pokemon;
@@ -114,14 +100,14 @@ class PokemonDetail extends Component {
 
   render() {
     return (
-      <div ref={(el) => { this.element = el; }}>
-        {this.props.loadingPokemon && this.renderLoading()}
-        {this.props.pokemonNotFound && this.renderPokemonNotFound()}
-        {this.props.pokemon
-        && !this.props.loadingPokemon
-        && !this.props.pokemonNotFound
-        && this.renderPokemonDetails(this.props.pokemon)}
-        {this.scrollUpButton()}
+        <div ref={(el) => { this.element = el; }}>
+          {this.props.loadingPokemon && this.renderLoading()}
+          {this.props.pokemonNotFound && this.renderPokemonNotFound()}
+          {this.props.pokemon
+          && !this.props.loadingPokemon
+          && !this.props.pokemonNotFound
+          && this.renderPokemonDetails(this.props.pokemon)}
+        <ShowingArrow />
       </div>
     );
   }

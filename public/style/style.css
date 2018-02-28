@@ -3,37 +3,53 @@
 }
 
 .list-group-item {
-  cursor:default;
+  cursor: default;
   text-decoration: none;
 }
+
 .list-group-item:hover {
-  cursor:default;
+  cursor: default;
   background-color: #17a2b8;
 }
+
 .container {
   max-width: 1500px;
   border: 1px solid #17a2b8;
 }
-.arrow {
-  width: 30px;
-  height: 30px;
+
+.box {
+  width: 40px;
+  height: 40px;
   background-color: #17a2b8;
-  animation: blink 3s ease-in infinite;
+ animation: blink 3s ease-in infinite;
   position: fixed;
   bottom: 5px;
   right: 5px;
   border-radius: 5px;
   border: none;
 }
+
 @keyframes blink {
-  from, to { opacity: 1 }
-  50% { opacity: 0 }
+  from, to {
+    opacity: 1
+  }
+  50% {
+    opacity: 0
+  }
 }
 .arrow-up {
-  color: white;
+  border: solid white;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 5px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  margin-top: -5px;
+  margin-left: -7px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -10px;
-  margin-left: -7px;
+}
+.d-none {
+  visibility: hidden;
 }
