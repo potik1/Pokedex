@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './Header';
 import PokemonList from './PokemonList';
 
-class Main extends Component {
-  render() {
-    return (
-      <div>
-        <Header />
-        <PokemonList />
-      </div>
-    );
-  }
-}
+const Main = () => (
+  <div>
+    <Header />
+    <PokemonList />
+  </div>
+);
 
 export default Main;

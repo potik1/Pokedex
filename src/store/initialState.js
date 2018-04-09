@@ -4,5 +4,7 @@ export default {
   nextPage: undefined,
   previousPage: undefined,
   pokemonNotFound: false,
-  loadingPokemon: false,
+  loadingList: false,
+  loading: false,
+  hasError: false,
 };

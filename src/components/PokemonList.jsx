@@ -2,22 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getPokemonList, getPokemon, searchPokemon } from '../actions/index';
+import { getPokemonList, getPokemon } from '../actions/index';
 import PokemonDetail from './PokemonDetail';
+import { hasError, renderLoading } from '../utils/functions';
 
 class PokemonList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: null,
     };
 
-    this.props.getPokemonList(this.state.page).then((res) => {
-      const pokemonName = res.payload.data.results[0].name;
-      this.props.searchPokemon(pokemonName);
-    });
-
     this.activeEl = null;
+  }
+
+  componentWillMount() {
+    this.props.getPokemonList(this.setState({page: 1}));
+    const url1 = 'https://pokeapi.co/api/v2/pokemon/bulbasaur';
+    this.props.getPokemon(url1);
   }
 
   getSelectPokemonList = pokemonUrl => (e) => {
@@ -31,13 +33,13 @@ class PokemonList extends Component {
 
   nextPage() {
     const page = this.state.page + 1;
-    this.setState({ page });
+    this.setState({page});
     this.props.getPokemonList(page);
   }
 
   prevPage() {
     const page = this.state.page - 1;
-    this.setState({ page });
+    this.setState({page});
     this.props.getPokemonList(page);
   }
 
@@ -59,7 +61,7 @@ class PokemonList extends Component {
       <div className="container">
         <div className="row">
           <h3 className="mt-4 mx-auto"> LIST OF POKEMONS</h3>
-          <div className="col-12 " />
+          <div className="col-12 "/>
           <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
             <div className="text-center">
               <button
@@ -79,14 +81,19 @@ class PokemonList extends Component {
                 Next
               </button>
             </div>
-            <div >
+            <div>
               <ul className="list-group my-4">
-                {this.renderList()}
+                {this.props.loadingList && renderLoading()}
+                {this.props.hasError && hasError()}
+                {this.props.pokemons
+                && !this.props.loadingList
+                && !this.props.hasError
+                && this.renderList()}
               </ul>
             </div>
-            <hr className="d-block d-sm-none" />
+            <hr className="d-block d-sm-none"/>
           </div>
-          <div className="col-lg-8 col-md-8 col-sm-7 col-xs-6 mx-auto" >
+          <div className="col-lg-8 col-md-8 col-sm-7 col-xs-6 mx-auto">
             <PokemonDetail />
           </div>
         </div>
@@ -95,29 +102,33 @@ class PokemonList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
+const mapStateToProps = state => (
+  {
     pokemons: state.pokemons.pokemons,
     previousPage: state.pokemons.previousPage,
     nextPage: state.pokemons.nextPage,
     pokemonNotFound: state.pokemons.pokemonNotFound,
-  };
-}
+    hasError: state.pokemons.hasError,
+    loadingList: state.pokemons.loadingList,
+  }
+);
 
 PokemonList.propTypes = {
   getPokemonList: PropTypes.func.isRequired,
   getPokemon: PropTypes.func.isRequired,
-  searchPokemon: PropTypes.func.isRequired,
-  /* eslint-disable */
+  /* eslint-disable*/
   pokemons: PropTypes.arrayOf(PropTypes.object).isRequired,
   /* eslint-disable */
   previousPage: PropTypes.string.isRequired,
   /* eslint-disable */
   nextPage: PropTypes.string.isRequired,
+  pokemonNotFound: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  loadingList: PropTypes.bool.isRequired,
 };
 
 export default connect(
   mapStateToProps,
-  { getPokemon, getPokemonList, searchPokemon },
+  {getPokemonList, getPokemon},
 )(PokemonList);
 

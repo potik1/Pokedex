@@ -1,108 +1,107 @@
-import { getPokemonList, getPokemon, searchPokemon } from '../../actions/index';
-import { GET_POKEMON, LIST_POKEMONS, SEARCH_POKEMON } from '../../actions/type';
+import configureMockStore from 'redux-mock-store';
+import moxios from 'moxios';
+import axios from 'axios';
+import sinon from 'sinon';
+import thunk from 'redux-thunk';
+import * as actions from '../../actions/index';
+import * as types from '../../actions/type';
 
-describe('tests of action functions', () => {
-  describe('getPokemonsList function test', () => {
-    test('Valid response', () => {
-      expect.assertions(9);
+describe('test of function loadingError ( true or false)', () => {
+  test('Valid response', () => {
+    const hasError = false;
+    const expectedAction = {
+      type: types.LOADING_ERROR,
+      hasError,
+    };
+    expect(typeof (actions.loadingError(hasError))).toEqual('object');
+    expect(actions.loadingError(hasError)).toEqual(expectedAction);
+  });
+});
 
-      const limit = 10;
-      const response = getPokemonList(1, limit);
+describe('test of function loading (true or false)', () => {
+  test('Valid response', () => {
+    const loading = true;
+    const expectedAction = {
+      type: types.LOADING_POKEMON,
+      loading,
+    };
+    expect(typeof (actions.loading(loading))).toEqual('object');
+    expect(actions.loading(loading)).toEqual(expectedAction);
+  });
+});
 
-      expect(response.type).toEqual(LIST_POKEMONS);
+describe('test of function loadingList (true or false)', () => {
+  test('Valid response', () => {
+    const loadingList = true;
+    const expectedAction = {
+      type: types.LOADING_LIST,
+      loadingList,
+    };
+    expect(typeof (actions.loadingList(loadingList))).toEqual('object');
+    expect(actions.loadingList(loadingList)).toEqual(expectedAction);
+  });
+});
 
-      return response.payload.then((res) => {
-        expect(res.status).toEqual(200);
-        expect(res.data.results.length).toEqual(limit);
-        expect(Array.isArray(res.data.results)).toBe(true);
-        expect(res.data.results[0]).toMatchObject({});
-        expect(res.data.results[0].name).toBeTruthy();
-        expect(res.data.results[0]).toHaveProperty('name');
-        expect(res.data.results[0]).toHaveProperty('url');
-        expect(res.data.results[0].url).toContain('https://');
-      });
-    });
+describe('test of function errorReset', () => {
+  test('Valid response', () => {
+    const expected = {
+      type: types.ERROR_RESET,
+    };
+    expect(typeof (actions.errorReset())).toEqual('object');
+    expect(actions.errorReset()).toEqual(expected);
+  });
+});
 
-    test('Out fo range parameters', () => {
-      const response = getPokemonList(999, 999);
+describe('getPokemonsList function test', () => {
+  describe('dispatch actions', () => {
+    const limit = 10;
+    const dispatch = jest.fn();
 
-      expect.assertions(3);
-      expect(response.type).toEqual(LIST_POKEMONS);
+    test('Dispatch LoadingList and ErrorReset', () => {
+      const getPokemonList = actions.getPokemonList(1, limit);
+      getPokemonList(dispatch);
 
-      return response.payload.then((res) => {
-        expect(res.status).toEqual(200);
-        expect(res.data.results.length).toEqual(0);
-      });
-    });
+      const expectedAction = {
+        type: types.LOADING_LIST,
+        loadingList: true,
+      };
+      expect(dispatch).toBeCalledWith(expectedAction);
 
-    test('All Pokemons at once', () => {
-      const response = getPokemonList(1, 949);
-
-      expect.assertions(3);
-      expect(response.type).toEqual(LIST_POKEMONS);
-
-      return response.payload.then((res) => {
-        expect(res.status).toEqual(200);
-        expect(res.data.results.length).toEqual(949);
-      });
+      const expectErrorResetAction = {
+        type: types.ERROR_RESET,
+      };
+      expect(dispatch).toBeCalledWith(expectErrorResetAction);
+      dispatch.mockClear();
     });
   });
 
-  describe('getPokemon function test', () => {
-    test('Valid response', () => {
-      const response = getPokemon('https://pokeapi.co/api/v2/pokemon/1/');
+  describe('server response', () => {
+    const expectedUrl = 'https://pokeapi.co/api/v2/pokemon/?$limit=10&offset=10';
+    const mockStore = configureMockStore([thunk]);
 
-      expect.assertions(6);
-      expect(response.type).toEqual(GET_POKEMON);
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
 
-      return response.payload.then((res) => {
-        expect(res.status).toEqual(200);
-        expect(res.data).toMatchObject({});
-        expect(res.data).toHaveProperty('name');
-        expect(res.data).toHaveProperty('id');
-        expect(res.data).toHaveProperty('abilities');
+    /*test.only('valid server response', (done) => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: 'something',
+        });
+
+        const expectedActions = {
+          type: types.LOADING_LIST,
+          payload: 'something',
+        };
+
+        const store = mockStore({});
+
+        return store.dispatch(actions.getPokemonList('anyData')).then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+          done();
+        });
       });
-    });
-
-    test('url does not exist', () => {
-      const response = getPokemon('https://pokeapi.co/api/v2/pokemon/0/');
-
-      expect.assertions(3);
-      expect(response.type).toEqual(GET_POKEMON);
-
-      return response.payload.catch((e) => {
-        expect(e).toMatchObject({});
-        expect(e.message).toContain('status code 404');
-      });
-    });
-  });
-
-  describe('searchPokemon function test', () => {
-    test('correct name', () => {
-      const response = searchPokemon('bulbasaur');
-
-      expect.assertions(6);
-      expect(response.type).toEqual(SEARCH_POKEMON);
-
-      return response.payload.then((res) => {
-        expect(res.status).toEqual(200);
-        expect(res.data).toMatchObject({});
-        expect(res.data).toHaveProperty('base_experience');
-        expect(res.data).toHaveProperty('id');
-        expect(res.data).toHaveProperty('abilities');
-      });
-    });
-
-    test('invalid name', () => {
-      const response = searchPokemon('kikomana');
-
-      expect.assertions(3);
-      expect(response.type).toEqual(SEARCH_POKEMON);
-
-      return response.payload.catch((e) => {
-        expect(e).toMatchObject({});
-        expect(e.message).toContain('Request failed with status code 404');
-      });
-    });
+    });*/
   });
 });

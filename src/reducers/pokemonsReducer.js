@@ -1,7 +1,11 @@
 import {
   LIST_POKEMONS,
   GET_POKEMON,
-  SEARCH_POKEMON, LOADING,
+  SEARCH_POKEMON,
+  LOADING_POKEMON,
+  LOADING_ERROR,
+  LOADING_LIST,
+  ERROR_RESET,
 } from '../actions/type';
 import initialState from '../store/initialState';
 
@@ -13,6 +17,7 @@ export default function (state = initialState, action = {}) {
         pokemons: action.payload.data.results,
         previousPage: action.payload.data.previous,
         nextPage: action.payload.data.next,
+        loadingList: false,
       };
 
     case GET_POKEMON:
@@ -20,29 +25,32 @@ export default function (state = initialState, action = {}) {
         ...state,
         pokemon: action.payload.data,
         pokemonNotFound: false,
-        loadingPokemon: false,
+        loading: false,
       };
 
     case SEARCH_POKEMON:
       if (action.error) {
-        const { status } = action.payload.response;
-        if (status === 404) {
-          return {
-            ...state,
-            pokemonNotFound: true,
-            loadingPokemon: false,
-          };
-        }
+        return {
+          ...state,
+          pokemonNotFound: true,
+          loading: false,
+        };
       }
       return {
         ...state,
         pokemon: action.payload.data,
         pokemonNotFound: false,
-        loadingPokemon: false,
+        loading: false,
       };
 
-    case LOADING:
-      return { ...state, loadingPokemon: true };
+    case LOADING_POKEMON:
+      return { ...state, loading: true };
+    case LOADING_LIST:
+      return { ...state, loadingList: true };
+    case LOADING_ERROR:
+      return { ...state, hasError: true };
+    case ERROR_RESET:
+      return { ...state, pokemonNotFound: false };
 
     default:
       return state;

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Loading from './Loading';
+import { renderLoading } from '../utils/functions';
 import ShowingArrow from './Showing';
+
 
 class PokemonDetail extends Component {
   componentDidUpdate() {
@@ -11,12 +12,12 @@ class PokemonDetail extends Component {
 
   scroll = () => {
     if (this.element) {
-      this.element.scrollIntoView({behavior: 'smooth'});
+      this.element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   renderPokemonDetails = (pokemon) => {
-    const {name, weight, height} = pokemon;
+    const { name, weight, height } = pokemon;
     const index = pokemon.id;
     const imgFrontShiny = pokemon.sprites.front_shiny;
     const imgBackShiny = pokemon.sprites.back_shiny;
@@ -41,8 +42,8 @@ class PokemonDetail extends Component {
         </div>
         <div className="row my-2">
           <div className="col-12 text-center">
-            <img src={imgFrontShiny} alt="imgFrontShiny"/>
-            <img src={imgBackShiny} alt="imgBackShiny"/>
+            <img src={imgFrontShiny} alt="imgFrontShiny" />
+            <img src={imgBackShiny} alt="imgBackShiny" />
           </div>
         </div>
         <div className="row">
@@ -70,13 +71,13 @@ class PokemonDetail extends Component {
           </h5>
           <table className="table table-sm table-bordered">
             <thead>
-            <tr className="table-secondary">
-              <th>Ability</th>
-              <th>Value</th>
-            </tr>
+              <tr className="table-secondary">
+                <th>Ability</th>
+                <th>Value</th>
+              </tr>
             </thead>
             <tbody>
-            {tableStat}
+              {tableStat}
             </tbody>
           </table>
         </div>
@@ -90,21 +91,13 @@ class PokemonDetail extends Component {
     </div>
   );
 
-  renderLoading = () => (
-    <div className="row">
-      <div className="mx-auto">
-        <Loading/>
-      </div>
-    </div>
-  );
-
   render() {
     return (
-        <div ref={(el) => { this.element = el; }}>
-          {this.props.loadingPokemon && this.renderLoading()}
-          {this.props.pokemonNotFound && this.renderPokemonNotFound()}
-          {this.props.pokemon
-          && !this.props.loadingPokemon
+      <div ref={(el) => { this.element = el; }}>
+        {this.props.loading && renderLoading()}
+        {this.props.pokemonNotFound && this.renderPokemonNotFound()}
+        {this.props.pokemon
+          && !this.props.loading
           && !this.props.pokemonNotFound
           && this.renderPokemonDetails(this.props.pokemon)}
         <ShowingArrow />
@@ -113,20 +106,21 @@ class PokemonDetail extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
+const mapStateToProps = state => (
+  {
     pokemon: state.pokemons.pokemon,
     pokemonNotFound: state.pokemons.pokemonNotFound,
-    loadingPokemon: state.pokemons.loadingPokemon,
-  };
-}
+    loading: state.pokemons.loading,
+  }
+);
 
 PokemonDetail.propTypes = {
   pokemonNotFound: PropTypes.bool.isRequired,
   /* eslint-disable */
   pokemon: PropTypes.object,
   /* eslint-enable */
-  loadingPokemon: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
+
 export default connect(mapStateToProps, null)(PokemonDetail);
 
