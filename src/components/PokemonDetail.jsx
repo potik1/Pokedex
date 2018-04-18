@@ -5,7 +5,7 @@ import { renderLoading } from '../utils/functions';
 import ShowingArrow from './Showing';
 
 
-class PokemonDetail extends Component {
+export class PokemonDetail extends Component {
   componentDidUpdate() {
     this.scroll();
   }

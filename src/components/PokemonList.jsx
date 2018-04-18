@@ -6,18 +6,18 @@ import { getPokemonList, getPokemon } from '../actions/index';
 import PokemonDetail from './PokemonDetail';
 import { hasError, renderLoading } from '../utils/functions';
 
-class PokemonList extends Component {
-  constructor(props) {
-    super(props);
+export class PokemonList extends Component {
+  constructor() {
+    super();
     this.state = {
-      page: null,
+      page: 1,
     };
 
     this.activeEl = null;
   }
 
-  componentWillMount() {
-    this.props.getPokemonList(this.setState({page: 1}));
+  componentDidMount() {
+    this.props.getPokemonList();
     const url1 = 'https://pokeapi.co/api/v2/pokemon/bulbasaur';
     this.props.getPokemon(url1);
   }
@@ -33,13 +33,13 @@ class PokemonList extends Component {
 
   nextPage() {
     const page = this.state.page + 1;
-    this.setState({page});
+    this.setState({ page });
     this.props.getPokemonList(page);
   }
 
   prevPage() {
     const page = this.state.page - 1;
-    this.setState({page});
+    this.setState({ page });
     this.props.getPokemonList(page);
   }
 
@@ -61,7 +61,7 @@ class PokemonList extends Component {
       <div className="container">
         <div className="row">
           <h3 className="mt-4 mx-auto"> LIST OF POKEMONS</h3>
-          <div className="col-12 "/>
+          <div className="col-12 " />
           <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
             <div className="text-center">
               <button

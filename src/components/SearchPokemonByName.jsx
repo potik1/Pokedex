@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { searchPokemon } from '../actions/index';
 
-class SearchPokemonByName extends Component {
-  constructor(props) {
-    super(props);
+export class SearchPokemonByName extends Component {
+  constructor() {
+    super();
     this.state = { term: '' };
   }
 

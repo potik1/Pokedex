@@ -8,4 +8,8 @@ describe('Header', () => {
   test('renders correctly', () => {
     expect(header).toMatchSnapshot();
   });
+
+  test('contains Connected SearchPokemonByName component', () => {
+    expect(header.find('Connect(SearchPokemonByName)').exists()).toBe(true);
+  });
 });
