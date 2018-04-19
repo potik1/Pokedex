@@ -82,7 +82,7 @@ describe('getPokemonsList function test', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    /*test.only('valid server response', (done) => {
+    /* test.only('valid server response', (done) => {
       moxios.wait(() => {
         const request = moxios.requests.mostRecent();
         request.respondWith({
@@ -102,6 +102,6 @@ describe('getPokemonsList function test', () => {
           done();
         });
       });
-    });*/
+    }); */
   });
 });

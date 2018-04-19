@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { getPokemonList, getPokemon } from '../actions/index';
 import PokemonDetail from './PokemonDetail';
-import { hasError, renderLoading } from '../utils/functions';
+import { hasError, renderLoading, addStyleClassToElement, removeStyleClassFromElement } from '../utils/functions';
 
 export class PokemonList extends Component {
   constructor() {
@@ -24,10 +24,13 @@ export class PokemonList extends Component {
 
   getSelectPokemonList = pokemonUrl => (e) => {
     this.props.getPokemon(pokemonUrl);
+
     if ((this.activeEl) && (e.target !== this.activeEl)) {
-      this.activeEl.classList.remove('font-weight-bold');
+      removeStyleClassFromElement(this.activeEl, 'font-weight-bold');
     }
-    e.target.classList.add('font-weight-bold');
+
+    addStyleClassToElement(e.target, 'font-weight-bold');
+
     this.activeEl = e.target;
   };
 
@@ -91,7 +94,7 @@ export class PokemonList extends Component {
                 && this.renderList()}
               </ul>
             </div>
-            <hr className="d-block d-sm-none"/>
+            <hr className="d-block d-sm-none" />
           </div>
           <div className="col-lg-8 col-md-8 col-sm-7 col-xs-6 mx-auto">
             <PokemonDetail />

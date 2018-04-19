@@ -22,3 +22,11 @@ export function hasError() {
     </div>
   );
 }
+
+export function addStyleClassToElement(element, styleClass) {
+  element.classList.add(styleClass);
+}
+
+export function removeStyleClassFromElement(element, styleClass) {
+  element.classList.remove(styleClass);
+}
