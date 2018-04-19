@@ -18,6 +18,7 @@ module.exports = {
   ],
   'rules':{
     'no-console': 0,
-    'func-names': ['error', 'never']
+    'func-names': ['error', 'never'],
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true }]
   }
 };

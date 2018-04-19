@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import Main from '../src/components/Main';
 import reducers from '../src/reducers/index';
 
-const store=  createStore(
+const store = createStore(
     reducers,
     compose(
       applyMiddleware(thunk),

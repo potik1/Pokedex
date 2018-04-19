@@ -21,7 +21,7 @@
   width: 40px;
   height: 40px;
   background-color: #17a2b8;
- animation: blink 3s ease-in infinite;
+  animation: blink 3s ease-in infinite;
   position: fixed;
   bottom: 5px;
   right: 5px;

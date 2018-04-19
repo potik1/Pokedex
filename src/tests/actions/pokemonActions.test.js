@@ -1,8 +1,3 @@
-import configureMockStore from 'redux-mock-store';
-import moxios from 'moxios';
-import axios from 'axios';
-import sinon from 'sinon';
-import thunk from 'redux-thunk';
 import * as actions from '../../actions/index';
 import * as types from '../../actions/type';
 
@@ -73,35 +68,5 @@ describe('getPokemonsList function test', () => {
       expect(dispatch).toBeCalledWith(expectErrorResetAction);
       dispatch.mockClear();
     });
-  });
-
-  describe('server response', () => {
-    const expectedUrl = 'https://pokeapi.co/api/v2/pokemon/?$limit=10&offset=10';
-    const mockStore = configureMockStore([thunk]);
-
-    beforeEach(() => moxios.install());
-    afterEach(() => moxios.uninstall());
-
-    /* test.only('valid server response', (done) => {
-      moxios.wait(() => {
-        const request = moxios.requests.mostRecent();
-        request.respondWith({
-          status: 200,
-          response: 'something',
-        });
-
-        const expectedActions = {
-          type: types.LOADING_LIST,
-          payload: 'something',
-        };
-
-        const store = mockStore({});
-
-        return store.dispatch(actions.getPokemonList('anyData')).then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-          done();
-        });
-      });
-    }); */
   });
 });

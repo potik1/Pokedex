@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import { getPokemonList, getPokemon } from '../actions/index';
 import PokemonDetail from './PokemonDetail';
-import { hasError, renderLoading, addStyleClassToElement, removeStyleClassFromElement } from '../utils/functions';
+import {
+  hasError,
+  renderLoading,
+  addStyleClassToElement,
+  removeStyleClassFromElement,
+} from '../utils/functions';
 
 export class PokemonList extends Component {
   constructor() {
@@ -28,21 +33,19 @@ export class PokemonList extends Component {
     if ((this.activeEl) && (e.target !== this.activeEl)) {
       removeStyleClassFromElement(this.activeEl, 'font-weight-bold');
     }
-
     addStyleClassToElement(e.target, 'font-weight-bold');
-
     this.activeEl = e.target;
   };
 
   nextPage() {
     const page = this.state.page + 1;
-    this.setState({ page });
+    this.setState({page});
     this.props.getPokemonList(page);
   }
 
   prevPage() {
     const page = this.state.page - 1;
-    this.setState({ page });
+    this.setState({page});
     this.props.getPokemonList(page);
   }
 
@@ -63,8 +66,8 @@ export class PokemonList extends Component {
     return (
       <div className="container">
         <div className="row">
-          <h3 className="mt-4 mx-auto"> LIST OF POKEMONS</h3>
-          <div className="col-12 " />
+          <h3 className="mt-4 mx-auto">LIST OF POKEMONS</h3>
+          <div className="col-12 "/>
           <div className="col-lg-3 col-md-3 col-sm-5 col-xs-6 mx-auto">
             <div className="text-center">
               <button
@@ -94,10 +97,10 @@ export class PokemonList extends Component {
                 && this.renderList()}
               </ul>
             </div>
-            <hr className="d-block d-sm-none" />
+            <hr className="d-block d-sm-none"/>
           </div>
           <div className="col-lg-8 col-md-8 col-sm-7 col-xs-6 mx-auto">
-            <PokemonDetail />
+            <PokemonDetail/>
           </div>
         </div>
       </div>
