@@ -4,6 +4,7 @@
   "private": true,
   "author": "Ela Synowiec",
   "description": "App using Pokedex API",
+  "homepage": "https://potik1.github.io/Pokedex/",
   "dependencies": {
     "axios": "^0.17.1",
     "lodash": "^4.17.5",
